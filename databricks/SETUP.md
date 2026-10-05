@@ -1,0 +1,9 @@
+# Databricks setup
+
+1. **Schema and volume:** run the config cell in the notebook, or `CREATE SCHEMA IF NOT EXISTS workspace.da_learn_06; CREATE VOLUME IF NOT EXISTS workspace.da_learn_06.raw;`
+2. **Upload the full raw files** (from `python scripts/download_full_data.py`) to `/Volumes/workspace/da_learn_06/raw/`. Use Catalog Explorer → Volume → *Upload*, or `databricks fs cp data/raw_full/flights.parquet dbfs:/Volumes/workspace/da_learn_06/raw/` (and the same for `airlines.parquet`, `airports.parquet` and `cancellation_codes.parquet`).
+3. **Import** `airline_delays_pipeline_notebook.sql` into `/Workspace/Shared/da-learn-06-airline-delays/`. Attach it to a SQL warehouse (this run used *Serverless Starter Warehouse*) and choose **Run all**. That covers staging (`read_files`), cleaning, the star schema, analysis and DQ.
+4. **Dashboard:** in Dashboards, choose *Import* and select `airline_delays_dashboard.lvdash.json`. Choose warehouse → *Publish*. It has 8 widgets: 2 counters (flights, on-time rate), on-time % by month, cancellation rate by month, on-time % by airline, share of late minutes by cause, average departure delay by scheduled hour and average departure delay at the 10 busiest origins. Every dataset reads `workspace.da_learn_06.a_*`.
+5. **Check parity:** `run_outputs/duckdb_vs_databricks.json` records the 2026-10-05 run. All 14 pipeline tables have equal row counts (stg_flights and fact_flights 5,819,079), and the KPI, analysis and DQ tables are compared cell for cell.
+
+Dialect notes: the SQL in `sql/` is written to run on both engines. `sql/00_duckdb_compat.sql` adds DuckDB macros for Spark functions (`dayofweek`, `to_date`, `unix_timestamp`, `percentile_approx`). Every cast is `TRY_CAST` and every ratio uses `NULLIF`, so the scripts are safe under ANSI mode on serverless SQL. The duplicate tie-break orders by enough columns to pick the same row on both engines.

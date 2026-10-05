@@ -1,0 +1,513 @@
+{
+ "datasets": [
+  {
+   "name": "kpi",
+   "displayName": "Headline KPIs",
+   "queryLines": [
+    "SELECT flights, on_time_pct / 100 AS on_time_rate, cancelled_pct / 100 AS cancelled_rate FROM workspace.da_learn_06.a_kpi_headline"
+   ]
+  },
+  {
+   "name": "otp_by_month",
+   "displayName": "On-time arrival % by month",
+   "queryLines": [
+    "SELECT month_label, on_time_pct FROM workspace.da_learn_06.a_monthly ORDER BY month"
+   ]
+  },
+  {
+   "name": "cancel_by_month",
+   "displayName": "Cancellation rate by month (%)",
+   "queryLines": [
+    "SELECT month_label, cancelled_pct FROM workspace.da_learn_06.a_monthly ORDER BY month"
+   ]
+  },
+  {
+   "name": "airline_otp",
+   "displayName": "On-time arrival % by airline",
+   "queryLines": [
+    "SELECT airline_name, on_time_pct FROM workspace.da_learn_06.a_airline ORDER BY on_time_pct DESC"
+   ]
+  },
+  {
+   "name": "delay_causes",
+   "displayName": "Share of late-arrival minutes by cause",
+   "queryLines": [
+    "SELECT cause, share_pct FROM workspace.da_learn_06.a_delay_causes ORDER BY share_pct DESC"
+   ]
+  },
+  {
+   "name": "hourly_dep_delay",
+   "displayName": "Avg departure delay by scheduled hour (min)",
+   "queryLines": [
+    "SELECT sched_dep_hour, avg_dep_delay_min FROM workspace.da_learn_06.a_hourly ORDER BY sched_dep_hour"
+   ]
+  },
+  {
+   "name": "busiest_airports_delay",
+   "displayName": "Avg departure delay, 10 busiest origins (min)",
+   "queryLines": [
+    "SELECT origin_code, avg_dep_delay_min FROM (SELECT origin_code, avg_dep_delay_min, departures FROM workspace.da_learn_06.a_origin_airports ORDER BY departures DESC LIMIT 10) t ORDER BY avg_dep_delay_min DESC"
+   ]
+  }
+ ],
+ "pages": [
+  {
+   "name": "overview",
+   "displayName": "Overview",
+   "layout": [
+    {
+     "widget": {
+      "name": "title",
+      "multilineTextboxSpec": {
+       "lines": [
+        "## US airline delays and cancellations - 2015 (full data)"
+       ]
+      }
+     },
+     "position": {
+      "x": 0,
+      "y": 0,
+      "width": 6,
+      "height": 1
+     }
+    },
+    {
+     "widget": {
+      "name": "kpi_flights",
+      "queries": [
+       {
+        "name": "main_query",
+        "query": {
+         "datasetName": "kpi",
+         "fields": [
+          {
+           "name": "flights",
+           "expression": "`flights`"
+          }
+         ],
+         "disaggregated": true
+        }
+       }
+      ],
+      "spec": {
+       "version": 2,
+       "widgetType": "counter",
+       "encodings": {
+        "value": {
+         "fieldName": "flights",
+         "displayName": "Flights (2015)",
+         "format": {
+          "type": "number",
+          "abbreviation": "compact",
+          "decimalPlaces": {
+           "type": "max",
+           "places": 1
+          }
+         }
+        }
+       },
+       "frame": {
+        "showTitle": true,
+        "title": "Flights (2015)"
+       }
+      }
+     },
+     "position": {
+      "x": 0,
+      "y": 1,
+      "width": 2,
+      "height": 2
+     }
+    },
+    {
+     "widget": {
+      "name": "kpi_on_time_rate",
+      "queries": [
+       {
+        "name": "main_query",
+        "query": {
+         "datasetName": "kpi",
+         "fields": [
+          {
+           "name": "on_time_rate",
+           "expression": "`on_time_rate`"
+          }
+         ],
+         "disaggregated": true
+        }
+       }
+      ],
+      "spec": {
+       "version": 2,
+       "widgetType": "counter",
+       "encodings": {
+        "value": {
+         "fieldName": "on_time_rate",
+         "displayName": "On-time arrival rate",
+         "format": {
+          "type": "number-percent",
+          "decimalPlaces": {
+           "type": "max",
+           "places": 1
+          }
+         }
+        }
+       },
+       "frame": {
+        "showTitle": true,
+        "title": "On-time arrival rate"
+       }
+      }
+     },
+     "position": {
+      "x": 2,
+      "y": 1,
+      "width": 2,
+      "height": 2
+     }
+    },
+    {
+     "widget": {
+      "name": "note",
+      "multilineTextboxSpec": {
+       "lines": [
+        "Source: US DOT / BTS 2015 on-time performance (Kaggle usdot/flight-delays, CC0). On-time = arrived < 15 min late. Tables: workspace.da_learn_06."
+       ]
+      }
+     },
+     "position": {
+      "x": 4,
+      "y": 1,
+      "width": 2,
+      "height": 2
+     }
+    },
+    {
+     "widget": {
+      "name": "w_otp_by_month",
+      "queries": [
+       {
+        "name": "main_query",
+        "query": {
+         "datasetName": "otp_by_month",
+         "fields": [
+          {
+           "name": "month_label",
+           "expression": "`month_label`"
+          },
+          {
+           "name": "on_time_pct",
+           "expression": "`on_time_pct`"
+          }
+         ],
+         "disaggregated": true
+        }
+       }
+      ],
+      "spec": {
+       "version": 3,
+       "widgetType": "line",
+       "encodings": {
+        "x": {
+         "fieldName": "month_label",
+         "displayName": "month_label",
+         "scale": {
+          "type": "categorical"
+         }
+        },
+        "y": {
+         "fieldName": "on_time_pct",
+         "displayName": "on_time_pct",
+         "scale": {
+          "type": "quantitative"
+         }
+        }
+       },
+       "frame": {
+        "showTitle": true,
+        "title": "On-time arrival % by month"
+       }
+      }
+     },
+     "position": {
+      "x": 0,
+      "y": 3,
+      "width": 3,
+      "height": 6
+     }
+    },
+    {
+     "widget": {
+      "name": "w_cancel_by_month",
+      "queries": [
+       {
+        "name": "main_query",
+        "query": {
+         "datasetName": "cancel_by_month",
+         "fields": [
+          {
+           "name": "month_label",
+           "expression": "`month_label`"
+          },
+          {
+           "name": "cancelled_pct",
+           "expression": "`cancelled_pct`"
+          }
+         ],
+         "disaggregated": true
+        }
+       }
+      ],
+      "spec": {
+       "version": 3,
+       "widgetType": "bar",
+       "encodings": {
+        "x": {
+         "fieldName": "month_label",
+         "displayName": "month_label",
+         "scale": {
+          "type": "categorical"
+         }
+        },
+        "y": {
+         "fieldName": "cancelled_pct",
+         "displayName": "cancelled_pct",
+         "scale": {
+          "type": "quantitative"
+         }
+        }
+       },
+       "frame": {
+        "showTitle": true,
+        "title": "Cancellation rate by month (%)"
+       }
+      }
+     },
+     "position": {
+      "x": 3,
+      "y": 3,
+      "width": 3,
+      "height": 6
+     }
+    },
+    {
+     "widget": {
+      "name": "w_airline_otp",
+      "queries": [
+       {
+        "name": "main_query",
+        "query": {
+         "datasetName": "airline_otp",
+         "fields": [
+          {
+           "name": "airline_name",
+           "expression": "`airline_name`"
+          },
+          {
+           "name": "on_time_pct",
+           "expression": "`on_time_pct`"
+          }
+         ],
+         "disaggregated": true
+        }
+       }
+      ],
+      "spec": {
+       "version": 3,
+       "widgetType": "bar",
+       "encodings": {
+        "x": {
+         "fieldName": "on_time_pct",
+         "displayName": "on_time_pct",
+         "scale": {
+          "type": "quantitative"
+         }
+        },
+        "y": {
+         "fieldName": "airline_name",
+         "displayName": "airline_name",
+         "scale": {
+          "type": "categorical"
+         }
+        }
+       },
+       "frame": {
+        "showTitle": true,
+        "title": "On-time arrival % by airline"
+       }
+      }
+     },
+     "position": {
+      "x": 0,
+      "y": 9,
+      "width": 3,
+      "height": 6
+     }
+    },
+    {
+     "widget": {
+      "name": "w_delay_causes",
+      "queries": [
+       {
+        "name": "main_query",
+        "query": {
+         "datasetName": "delay_causes",
+         "fields": [
+          {
+           "name": "cause",
+           "expression": "`cause`"
+          },
+          {
+           "name": "share_pct",
+           "expression": "`share_pct`"
+          }
+         ],
+         "disaggregated": true
+        }
+       }
+      ],
+      "spec": {
+       "version": 3,
+       "widgetType": "bar",
+       "encodings": {
+        "x": {
+         "fieldName": "share_pct",
+         "displayName": "share_pct",
+         "scale": {
+          "type": "quantitative"
+         }
+        },
+        "y": {
+         "fieldName": "cause",
+         "displayName": "cause",
+         "scale": {
+          "type": "categorical"
+         }
+        }
+       },
+       "frame": {
+        "showTitle": true,
+        "title": "Share of late-arrival minutes by cause"
+       }
+      }
+     },
+     "position": {
+      "x": 3,
+      "y": 9,
+      "width": 3,
+      "height": 6
+     }
+    },
+    {
+     "widget": {
+      "name": "w_hourly_dep_delay",
+      "queries": [
+       {
+        "name": "main_query",
+        "query": {
+         "datasetName": "hourly_dep_delay",
+         "fields": [
+          {
+           "name": "sched_dep_hour",
+           "expression": "`sched_dep_hour`"
+          },
+          {
+           "name": "avg_dep_delay_min",
+           "expression": "`avg_dep_delay_min`"
+          }
+         ],
+         "disaggregated": true
+        }
+       }
+      ],
+      "spec": {
+       "version": 3,
+       "widgetType": "bar",
+       "encodings": {
+        "x": {
+         "fieldName": "sched_dep_hour",
+         "displayName": "sched_dep_hour",
+         "scale": {
+          "type": "categorical"
+         }
+        },
+        "y": {
+         "fieldName": "avg_dep_delay_min",
+         "displayName": "avg_dep_delay_min",
+         "scale": {
+          "type": "quantitative"
+         }
+        }
+       },
+       "frame": {
+        "showTitle": true,
+        "title": "Avg departure delay by scheduled hour (min)"
+       }
+      }
+     },
+     "position": {
+      "x": 0,
+      "y": 15,
+      "width": 3,
+      "height": 6
+     }
+    },
+    {
+     "widget": {
+      "name": "w_busiest_airports_delay",
+      "queries": [
+       {
+        "name": "main_query",
+        "query": {
+         "datasetName": "busiest_airports_delay",
+         "fields": [
+          {
+           "name": "origin_code",
+           "expression": "`origin_code`"
+          },
+          {
+           "name": "avg_dep_delay_min",
+           "expression": "`avg_dep_delay_min`"
+          }
+         ],
+         "disaggregated": true
+        }
+       }
+      ],
+      "spec": {
+       "version": 3,
+       "widgetType": "bar",
+       "encodings": {
+        "x": {
+         "fieldName": "avg_dep_delay_min",
+         "displayName": "avg_dep_delay_min",
+         "scale": {
+          "type": "quantitative"
+         }
+        },
+        "y": {
+         "fieldName": "origin_code",
+         "displayName": "origin_code",
+         "scale": {
+          "type": "categorical"
+         }
+        }
+       },
+       "frame": {
+        "showTitle": true,
+        "title": "Avg departure delay, 10 busiest origins (min)"
+       }
+      }
+     },
+     "position": {
+      "x": 3,
+      "y": 15,
+      "width": 3,
+      "height": 6
+     }
+    }
+   ],
+   "pageType": "PAGE_TYPE_CANVAS"
+  }
+ ]
+}

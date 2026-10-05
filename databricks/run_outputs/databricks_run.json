@@ -1,0 +1,36 @@
+{
+ "uploads": {
+  "flights.parquet": {
+   "bytes": 144139267,
+   "secs": 2.6
+  },
+  "airlines.parquet": {
+   "bytes": 645,
+   "secs": 0.8
+  },
+  "airports.parquet": {
+   "bytes": 17125,
+   "secs": 0.9
+  },
+  "cancellation_codes.parquet": {
+   "bytes": 462,
+   "secs": 0.6
+  }
+ },
+ "statements": 41,
+ "statement_secs": 127.6,
+ "notebook": "/Workspace/Shared/da-learn-06-airline-delays/airline_delays_pipeline_notebook",
+ "dashboard": {
+  "name": "da-learn-06 Airline delays",
+  "path": "/Shared/da-learn-06-airline-delays/da-learn-06 Airline delays.lvdash.json",
+  "published": true,
+  "published_revision_time": "2026-10-05T04:42:41.564Z",
+  "widgets": 8
+ },
+ "row_counts_all_match": true,
+ "catalog": "workspace",
+ "schema": "da_learn_06",
+ "warehouse": "Serverless Starter Warehouse",
+ "volume": "/Volumes/workspace/da_learn_06/raw",
+ "last_step_run_ist": "2026-10-05 10:13 IST"
+}

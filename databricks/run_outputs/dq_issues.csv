@@ -1,0 +1,16 @@
+check_name,affected_rows
+BTS day_of_week disagrees with date,0
+IATA airport not in airports lookup,0
+airports without coordinates (kept),3
+cancelled without reason code,0
+carrier not in airlines lookup - removed,0
+cause minutes do not sum to arrival delay,0
+completed flight without arrival delay,0
+"delay > 10 h (outlier, kept and flagged)",1418
+distance missing or <= 0,0
+"duplicate flight key (date, carrier, flight no, origin, dest, sched dep) - removed",0
+invalid / non-2015 date - removed,0
+numeric BTS airport id instead of IATA (Oct 2015) - kept as UNK,486165
+"same flight no + origin + sched dep, different destination (multi-leg; kept)",1
+tail number missing (kept),14721
+total flight rows removed,0

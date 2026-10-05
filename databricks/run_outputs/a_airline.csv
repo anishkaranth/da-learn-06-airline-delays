@@ -1,0 +1,15 @@
+airline_code,airline_name,flights,share_pct,on_time_pct,cancelled_pct,avg_arr_delay_min,avg_delay_when_late_min
+AA,American Airlines Inc.,725984,12.48,81.73,1.5,3.45,60.11
+AS,Alaska Airlines Inc.,172521,2.96,86.96,0.39,-0.98,48.09
+B6,JetBlue Airways,267048,4.59,77.42,1.6,6.68,61.01
+DL,Delta Air Lines Inc.,875881,15.05,86.44,0.44,0.19,61.26
+EV,Atlantic Southeast Airlines,571977,9.83,80.32,2.66,6.59,62.74
+F9,Frontier Airlines Inc.,90836,1.56,73.84,0.65,12.5,67.2
+HA,Hawaiian Airlines Inc.,76272,1.31,88.67,0.22,2.02,39.59
+MQ,American Eagle Airlines Inc.,294632,5.06,78.28,5.1,6.46,62.96
+NK,Spirit Air Lines,117379,2.02,70.29,1.71,14.47,63.21
+OO,Skywest Airlines Inc.,588353,10.11,81.31,1.69,5.85,60.36
+UA,United Air Lines Inc.,515723,8.86,79.38,1.27,5.43,64.7
+US,US Airways Inc.,198715,3.41,81.18,2.05,3.71,50.29
+VX,Virgin America,61903,1.06,80.77,0.86,4.74,56.3
+WN,Southwest Airlines Co.,1261855,21.68,80.95,1.27,4.37,52.28

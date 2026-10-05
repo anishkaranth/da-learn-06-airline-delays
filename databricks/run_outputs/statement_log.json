@@ -1,0 +1,248 @@
+[
+{
+"cell": 1,
+"stmt": "CREATE SCHEMA IF NOT EXISTS workspace.da_learn_06",
+"secs": 1.0,
+"rows_returned": 0
+},
+{
+"cell": 1,
+"stmt": "CREATE VOLUME IF NOT EXISTS workspace.da_learn_06.raw",
+"secs": 1.0,
+"rows_returned": 0
+},
+{
+"cell": 1,
+"stmt": "USE CATALOG workspace",
+"secs": 0.7,
+"rows_returned": 0
+},
+{
+"cell": 1,
+"stmt": "USE SCHEMA da_learn_06",
+"secs": 1.0,
+"rows_returned": 0
+},
+{
+"cell": 3,
+"stmt": "CREATE OR REPLACE TABLE stg_flights AS",
+"secs": 15.3,
+"rows_returned": 0
+},
+{
+"cell": 4,
+"stmt": "CREATE OR REPLACE TABLE stg_airlines AS",
+"secs": 2.7,
+"rows_returned": 0
+},
+{
+"cell": 5,
+"stmt": "CREATE OR REPLACE TABLE stg_airports AS",
+"secs": 2.6,
+"rows_returned": 0
+},
+{
+"cell": 6,
+"stmt": "CREATE OR REPLACE TABLE stg_cancellation_codes AS",
+"secs": 2.3,
+"rows_returned": 0
+},
+{
+"cell": 8,
+"stmt": "CREATE OR REPLACE TABLE cln_airlines AS",
+"secs": 2.5,
+"rows_returned": 0
+},
+{
+"cell": 9,
+"stmt": "CREATE OR REPLACE TABLE cln_airports AS",
+"secs": 2.4,
+"rows_returned": 0
+},
+{
+"cell": 10,
+"stmt": "CREATE OR REPLACE TABLE cln_cancellation_codes AS",
+"secs": 2.4,
+"rows_returned": 0
+},
+{
+"cell": 11,
+"stmt": "CREATE OR REPLACE TABLE cln_flights_flagged AS",
+"secs": 12.3,
+"rows_returned": 0
+},
+{
+"cell": 12,
+"stmt": "CREATE OR REPLACE TABLE cln_flights AS",
+"secs": 5.4,
+"rows_returned": 0
+},
+{
+"cell": 14,
+"stmt": "CREATE OR REPLACE TABLE dim_airline AS",
+"secs": 2.0,
+"rows_returned": 0
+},
+{
+"cell": 15,
+"stmt": "CREATE OR REPLACE TABLE dim_airport AS",
+"secs": 2.0,
+"rows_returned": 0
+},
+{
+"cell": 16,
+"stmt": "CREATE OR REPLACE TABLE dim_cancellation AS",
+"secs": 2.0,
+"rows_returned": 0
+},
+{
+"cell": 17,
+"stmt": "CREATE OR REPLACE TABLE dim_date AS",
+"secs": 2.4,
+"rows_returned": 0
+},
+{
+"cell": 18,
+"stmt": "CREATE OR REPLACE TABLE fact_flights AS",
+"secs": 4.4,
+"rows_returned": 0
+},
+{
+"cell": 20,
+"stmt": "CREATE OR REPLACE TABLE a_kpi_headline AS",
+"secs": 3.1,
+"rows_returned": 0
+},
+{
+"cell": 21,
+"stmt": "CREATE OR REPLACE TABLE a_monthly AS",
+"secs": 3.2,
+"rows_returned": 0
+},
+{
+"cell": 22,
+"stmt": "CREATE OR REPLACE TABLE a_daily AS",
+"secs": 3.4,
+"rows_returned": 0
+},
+{
+"cell": 23,
+"stmt": "CREATE OR REPLACE TABLE a_day_of_week AS",
+"secs": 2.8,
+"rows_returned": 0
+},
+{
+"cell": 24,
+"stmt": "CREATE OR REPLACE TABLE a_airline AS",
+"secs": 3.0,
+"rows_returned": 0
+},
+{
+"cell": 25,
+"stmt": "CREATE OR REPLACE TABLE a_delay_causes AS",
+"secs": 3.0,
+"rows_returned": 0
+},
+{
+"cell": 26,
+"stmt": "CREATE OR REPLACE TABLE a_cancellation_reasons AS",
+"secs": 3.0,
+"rows_returned": 0
+},
+{
+"cell": 27,
+"stmt": "CREATE OR REPLACE TABLE a_hourly AS",
+"secs": 2.2,
+"rows_returned": 0
+},
+{
+"cell": 28,
+"stmt": "CREATE OR REPLACE TABLE a_origin_airports AS",
+"secs": 3.1,
+"rows_returned": 0
+},
+{
+"cell": 29,
+"stmt": "CREATE OR REPLACE TABLE a_routes AS",
+"secs": 2.6,
+"rows_returned": 0
+},
+{
+"cell": 30,
+"stmt": "CREATE OR REPLACE TABLE a_distance_bands AS",
+"secs": 3.0,
+"rows_returned": 0
+},
+{
+"cell": 32,
+"stmt": "CREATE OR REPLACE TABLE dq_row_counts AS",
+"secs": 5.8,
+"rows_returned": 0
+},
+{
+"cell": 33,
+"stmt": "CREATE OR REPLACE TABLE dq_issues AS",
+"secs": 5.5,
+"rows_returned": 0
+},
+{
+"cell": 34,
+"stmt": "CREATE OR REPLACE TABLE dq_assertions AS",
+"secs": 8.1,
+"rows_returned": 0
+},
+{
+"cell": 35,
+"stmt": "SELECT * FROM dq_row_counts ORDER BY entity",
+"secs": 1.5,
+"rows_returned": 8
+},
+{
+"cell": 36,
+"stmt": "SELECT * FROM dq_assertions ORDER BY status, check_name",
+"secs": 1.5,
+"rows_returned": 14
+},
+{
+"cell": 38,
+"stmt": "SELECT * FROM a_kpi_headline",
+"secs": 1.4,
+"rows_returned": 1
+},
+{
+"cell": 39,
+"stmt": "SELECT month_label, on_time_pct FROM a_monthly ORDER BY month",
+"secs": 0.9,
+"rows_returned": 12
+},
+{
+"cell": 40,
+"stmt": "SELECT month_label, cancelled_pct FROM a_monthly ORDER BY month",
+"secs": 1.0,
+"rows_returned": 12
+},
+{
+"cell": 41,
+"stmt": "SELECT airline_name, on_time_pct FROM a_airline ORDER BY on_time_pct DESC",
+"secs": 0.8,
+"rows_returned": 14
+},
+{
+"cell": 42,
+"stmt": "SELECT cause, share_pct FROM a_delay_causes ORDER BY share_pct DESC",
+"secs": 1.1,
+"rows_returned": 5
+},
+{
+"cell": 43,
+"stmt": "SELECT sched_dep_hour, avg_dep_delay_min FROM a_hourly ORDER BY sched_dep_hour",
+"secs": 1.2,
+"rows_returned": 24
+},
+{
+"cell": 44,
+"stmt": "SELECT origin_code, avg_dep_delay_min FROM (SELECT origin_code, avg_dep_delay_mi",
+"secs": 2.0,
+"rows_returned": 10
+}
+]

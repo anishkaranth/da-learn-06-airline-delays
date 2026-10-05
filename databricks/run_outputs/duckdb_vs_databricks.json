@@ -1,0 +1,150 @@
+{
+ "row_counts": [
+  {
+   "table": "stg_flights",
+   "duckdb_rows": 5819079,
+   "databricks_rows": 5819079,
+   "match": true
+  },
+  {
+   "table": "stg_airlines",
+   "duckdb_rows": 14,
+   "databricks_rows": 14,
+   "match": true
+  },
+  {
+   "table": "stg_airports",
+   "duckdb_rows": 322,
+   "databricks_rows": 322,
+   "match": true
+  },
+  {
+   "table": "stg_cancellation_codes",
+   "duckdb_rows": 4,
+   "databricks_rows": 4,
+   "match": true
+  },
+  {
+   "table": "cln_airlines",
+   "duckdb_rows": 14,
+   "databricks_rows": 14,
+   "match": true
+  },
+  {
+   "table": "cln_airports",
+   "duckdb_rows": 322,
+   "databricks_rows": 322,
+   "match": true
+  },
+  {
+   "table": "cln_cancellation_codes",
+   "duckdb_rows": 4,
+   "databricks_rows": 4,
+   "match": true
+  },
+  {
+   "table": "cln_flights_flagged",
+   "duckdb_rows": 5819079,
+   "databricks_rows": 5819079,
+   "match": true
+  },
+  {
+   "table": "cln_flights",
+   "duckdb_rows": 5819079,
+   "databricks_rows": 5819079,
+   "match": true
+  },
+  {
+   "table": "fact_flights",
+   "duckdb_rows": 5819079,
+   "databricks_rows": 5819079,
+   "match": true
+  },
+  {
+   "table": "dim_date",
+   "duckdb_rows": 365,
+   "databricks_rows": 365,
+   "match": true
+  },
+  {
+   "table": "dim_airline",
+   "duckdb_rows": 14,
+   "databricks_rows": 14,
+   "match": true
+  },
+  {
+   "table": "dim_airport",
+   "duckdb_rows": 323,
+   "databricks_rows": 323,
+   "match": true
+  },
+  {
+   "table": "dim_cancellation",
+   "duckdb_rows": 5,
+   "databricks_rows": 5,
+   "match": true
+  }
+ ],
+ "table_comparisons": {
+  "a_kpi_headline": {
+   "rows_databricks": 1,
+   "rows_duckdb": 1,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  },
+  "dq_assertions": {
+   "rows_databricks": 14,
+   "rows_duckdb": 14,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  },
+  "a_monthly": {
+   "rows_databricks": 12,
+   "rows_duckdb": 12,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  },
+  "a_airline": {
+   "rows_databricks": 14,
+   "rows_duckdb": 14,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  },
+  "a_delay_causes": {
+   "rows_databricks": 5,
+   "rows_duckdb": 5,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  },
+  "a_cancellation_reasons": {
+   "rows_databricks": 4,
+   "rows_duckdb": 4,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  },
+  "a_hourly": {
+   "rows_databricks": 24,
+   "rows_duckdb": 24,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  },
+  "a_day_of_week": {
+   "rows_databricks": 7,
+   "rows_duckdb": 7,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  },
+  "a_distance_bands": {
+   "rows_databricks": 5,
+   "rows_duckdb": 5,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  },
+  "dq_issues": {
+   "rows_databricks": 15,
+   "rows_duckdb": 15,
+   "cell_diffs": [],
+   "n_cell_diffs": 0
+  }
+ }
+}

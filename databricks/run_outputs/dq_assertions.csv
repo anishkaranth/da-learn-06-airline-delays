@@ -1,0 +1,15 @@
+check_name,failed_rows,status
+airline exists in dim_airline,0,PASS
+airline flights sum = fact rows,0,PASS
+airport codes unique in dim_airport,0,PASS
+cancellation code exists in dim_cancellation,0,PASS
+date exists in dim_date,0,PASS
+destination exists in dim_airport,0,PASS
+every cancelled flight has a reason,0,PASS
+every clean flight is in fact_flights,0,PASS
+flight key unique in fact,0,PASS
+monthly flights sum = fact rows,0,PASS
+on-time + late = completed flights,0,PASS
+origin exists in dim_airport,0,PASS
+positive distance,0,PASS
+status flags exclusive (cancelled + diverted <= 1),0,PASS

@@ -1,0 +1,7 @@
+data/raw_full/
+data/clean_full/
+results/sample/
+results/tables/
+__pycache__/
+*.duckdb
+.venv/

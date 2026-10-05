@@ -1,0 +1,40 @@
+{
+ "snapshot": "headline KPIs + run config",
+ "project": "da-learn-06-airline-delays",
+ "source_mode": "full",
+ "config": {"engine": "duckdb (local, full data) + Databricks serverless SQL", "sql_dialect": "Spark/Databricks SQL + DuckDB shims (sql/00)", "period": "calendar year 2015 (US domestic, 14 reporting carriers)", "on_time": "arrival delay < 15 min, over completed (not cancelled, not diverted) flights", "delay_causes": "BTS cause minutes, reported only for flights arriving >= 15 min late", "airport_quirk": "October 2015 rows use numeric BTS airport ids; kept as UNK and excluded from airport/route views", "sample_rule": "data/raw = first flight of each carrier on 2015-01-15 + edge cases (each cancellation code, diverted, same-flight-number two-leg pair, Oct numeric airport, 2400 time, delay outlier), as CSV; full lookups"},
+ "headline": {"flights": 5819079, "completed_flights": 5714008, "avg_flights_per_day": 15943.0, "on_time_pct": 81.39, "cancelled_pct": 1.54, "diverted_pct": 0.26, "avg_arr_delay_min": 4.41, "avg_dep_delay_min": 9.34, "avg_delay_when_late_min": 58.91, "total_late_arrival_min": 62651867, "airlines": 14, "origin_airports": 322, "avg_taxi_out_min": 16.07},
+ "top": {
+  "airlines_best_otp": [
+   {"airline_name": "Hawaiian Airlines Inc.", "flights": 76272, "on_time_pct": 88.67},
+   {"airline_name": "Alaska Airlines Inc.", "flights": 172521, "on_time_pct": 86.96},
+   {"airline_name": "Delta Air Lines Inc.", "flights": 875881, "on_time_pct": 86.44}
+  ],
+  "airlines_worst_otp": [
+   {"airline_name": "Spirit Air Lines", "flights": 117379, "on_time_pct": 70.29},
+   {"airline_name": "Frontier Airlines Inc.", "flights": 90836, "on_time_pct": 73.84},
+   {"airline_name": "JetBlue Airways", "flights": 267048, "on_time_pct": 77.42}
+  ],
+  "delay_causes": [
+   {"cause": "Late-arriving aircraft", "share_pct": 39.84},
+   {"cause": "Airline / carrier", "share_pct": 32.2},
+   {"cause": "National Air System", "share_pct": 22.88},
+   {"cause": "Weather", "share_pct": 4.95},
+   {"cause": "Security", "share_pct": 0.13}
+  ],
+  "worst_months": [
+   {"month_label": "06 Jun", "on_time_pct": 76.52, "cancelled_pct": 1.81},
+   {"month_label": "02 Feb", "on_time_pct": 76.65, "cancelled_pct": 4.78},
+   {"month_label": "01 Jan", "on_time_pct": 79.0, "cancelled_pct": 2.55}
+  ],
+  "cancellation_reasons": [
+   {"cancellation_reason": "Weather", "share_pct": 54.35},
+   {"cancellation_reason": "Airline/Carrier", "share_pct": 28.11},
+   {"cancellation_reason": "National Air System", "share_pct": 17.52},
+   {"cancellation_reason": "Security", "share_pct": 0.02}
+  ]
+ },
+ "row_counts": {"flights": 5819079, "airlines": 14, "airports": 322, "fact_flights": 5819079, "dim_date": 365, "dim_airline": 14, "dim_airport": 323, "dim_cancellation": 5},
+ "assertions_passed": 14,
+ "assertions_total": 14
+}

@@ -1,0 +1,161 @@
+{
+ "project": "da-learn-06-airline-delays",
+ "dataset": "2015 Flight Delays and Cancellations (US DOT / BTS on-time performance, Kaggle usdot/flight-delays): flights, airlines, airports, cancellation codes",
+ "source_mode": "full",
+ "kpis": {"flights": 5819079, "completed_flights": 5714008, "avg_flights_per_day": 15943.0, "on_time_pct": 81.39, "cancelled_pct": 1.54, "diverted_pct": 0.26, "avg_arr_delay_min": 4.41, "avg_dep_delay_min": 9.34, "avg_delay_when_late_min": 58.91, "total_late_arrival_min": 62651867, "airlines": 14, "origin_airports": 322, "avg_taxi_out_min": 16.07},
+ "data_quality": {
+  "row_counts": [
+   {"entity": "flights", "raw_rows": 5819079, "clean_rows": 5819079, "removed_rows": 0, "grain": "flight leg"},
+   {"entity": "airlines", "raw_rows": 14, "clean_rows": 14, "removed_rows": 0, "grain": "carrier"},
+   {"entity": "airports", "raw_rows": 322, "clean_rows": 322, "removed_rows": 0, "grain": "airport"},
+   {"entity": "fact_flights", "raw_rows": null, "clean_rows": 5819079, "removed_rows": null, "grain": "flight leg"},
+   {"entity": "dim_date", "raw_rows": null, "clean_rows": 365, "removed_rows": null, "grain": "day"},
+   {"entity": "dim_airline", "raw_rows": null, "clean_rows": 14, "removed_rows": null, "grain": "carrier"},
+   {"entity": "dim_airport", "raw_rows": null, "clean_rows": 323, "removed_rows": null, "grain": "airport (+UNK)"},
+   {"entity": "dim_cancellation", "raw_rows": null, "clean_rows": 5, "removed_rows": null, "grain": "cancellation code (+N)"}
+  ],
+  "issues": [
+   {"check_name": "duplicate flight key (date, carrier, flight no, origin, dest, sched dep) - removed", "affected_rows": 0},
+   {"check_name": "invalid / non-2015 date - removed", "affected_rows": 0},
+   {"check_name": "carrier not in airlines lookup - removed", "affected_rows": 0},
+   {"check_name": "numeric BTS airport id instead of IATA (Oct 2015) - kept as UNK", "affected_rows": 486165},
+   {"check_name": "IATA airport not in airports lookup", "affected_rows": 0},
+   {"check_name": "distance missing or <= 0", "affected_rows": 0},
+   {"check_name": "completed flight without arrival delay", "affected_rows": 0},
+   {"check_name": "cancelled without reason code", "affected_rows": 0},
+   {"check_name": "delay > 10 h (outlier, kept and flagged)", "affected_rows": 1418},
+   {"check_name": "cause minutes do not sum to arrival delay", "affected_rows": 0},
+   {"check_name": "BTS day_of_week disagrees with date", "affected_rows": 0},
+   {"check_name": "same flight no + origin + sched dep, different destination (multi-leg; kept)", "affected_rows": 1},
+   {"check_name": "tail number missing (kept)", "affected_rows": 14721},
+   {"check_name": "airports without coordinates (kept)", "affected_rows": 3},
+   {"check_name": "total flight rows removed", "affected_rows": 0}
+  ],
+  "assertions": {"every clean flight is in fact_flights": "PASS", "flight key unique in fact": "PASS", "airline exists in dim_airline": "PASS", "origin exists in dim_airport": "PASS", "destination exists in dim_airport": "PASS", "date exists in dim_date": "PASS", "cancellation code exists in dim_cancellation": "PASS", "every cancelled flight has a reason": "PASS", "status flags exclusive (cancelled + diverted <= 1)": "PASS", "on-time + late = completed flights": "PASS", "monthly flights sum = fact rows": "PASS", "airline flights sum = fact rows": "PASS", "positive distance": "PASS", "airport codes unique in dim_airport": "PASS"}
+ },
+ "analysis": {
+  "monthly": [
+   {"month": 1, "month_label": "01 Jan", "flights": 469968, "on_time_pct": 79.0, "cancelled_pct": 2.55, "avg_arr_delay_min": 5.81},
+   {"month": 2, "month_label": "02 Feb", "flights": 429191, "on_time_pct": 76.65, "cancelled_pct": 4.78, "avg_arr_delay_min": 8.32},
+   {"month": 3, "month_label": "03 Mar", "flights": 504312, "on_time_pct": 80.6, "cancelled_pct": 2.18, "avg_arr_delay_min": 4.92},
+   {"month": 4, "month_label": "04 Apr", "flights": 485151, "on_time_pct": 82.84, "cancelled_pct": 0.93, "avg_arr_delay_min": 3.16},
+   {"month": 5, "month_label": "05 May", "flights": 496993, "on_time_pct": 81.69, "cancelled_pct": 1.15, "avg_arr_delay_min": 4.49},
+   {"month": 6, "month_label": "06 Jun", "flights": 503897, "on_time_pct": 76.52, "cancelled_pct": 1.81, "avg_arr_delay_min": 9.6},
+   {"month": 7, "month_label": "07 Jul", "flights": 520718, "on_time_pct": 79.08, "cancelled_pct": 0.92, "avg_arr_delay_min": 6.43},
+   {"month": 8, "month_label": "08 Aug", "flights": 510536, "on_time_pct": 81.33, "cancelled_pct": 0.99, "avg_arr_delay_min": 4.61},
+   {"month": 9, "month_label": "09 Sep", "flights": 464946, "on_time_pct": 87.0, "cancelled_pct": 0.45, "avg_arr_delay_min": -0.77},
+   {"month": 10, "month_label": "10 Oct", "flights": 486165, "on_time_pct": 87.56, "cancelled_pct": 0.5, "avg_arr_delay_min": -0.78},
+   {"month": 11, "month_label": "11 Nov", "flights": 467972, "on_time_pct": 84.74, "cancelled_pct": 0.98, "avg_arr_delay_min": 1.1},
+   {"month": 12, "month_label": "12 Dec", "flights": 479230, "on_time_pct": 79.4, "cancelled_pct": 1.68, "avg_arr_delay_min": 6.09}
+  ],
+  "airline": [
+   {"airline_code": "WN", "airline_name": "Southwest Airlines Co.", "flights": 1261855, "share_pct": 21.68, "on_time_pct": 80.95, "cancelled_pct": 1.27, "avg_arr_delay_min": 4.37, "avg_delay_when_late_min": 52.28},
+   {"airline_code": "DL", "airline_name": "Delta Air Lines Inc.", "flights": 875881, "share_pct": 15.05, "on_time_pct": 86.44, "cancelled_pct": 0.44, "avg_arr_delay_min": 0.19, "avg_delay_when_late_min": 61.26},
+   {"airline_code": "AA", "airline_name": "American Airlines Inc.", "flights": 725984, "share_pct": 12.48, "on_time_pct": 81.73, "cancelled_pct": 1.5, "avg_arr_delay_min": 3.45, "avg_delay_when_late_min": 60.11},
+   {"airline_code": "OO", "airline_name": "Skywest Airlines Inc.", "flights": 588353, "share_pct": 10.11, "on_time_pct": 81.31, "cancelled_pct": 1.69, "avg_arr_delay_min": 5.85, "avg_delay_when_late_min": 60.36},
+   {"airline_code": "EV", "airline_name": "Atlantic Southeast Airlines", "flights": 571977, "share_pct": 9.83, "on_time_pct": 80.32, "cancelled_pct": 2.66, "avg_arr_delay_min": 6.59, "avg_delay_when_late_min": 62.74},
+   {"airline_code": "UA", "airline_name": "United Air Lines Inc.", "flights": 515723, "share_pct": 8.86, "on_time_pct": 79.38, "cancelled_pct": 1.27, "avg_arr_delay_min": 5.43, "avg_delay_when_late_min": 64.7},
+   {"airline_code": "MQ", "airline_name": "American Eagle Airlines Inc.", "flights": 294632, "share_pct": 5.06, "on_time_pct": 78.28, "cancelled_pct": 5.1, "avg_arr_delay_min": 6.46, "avg_delay_when_late_min": 62.96},
+   {"airline_code": "B6", "airline_name": "JetBlue Airways", "flights": 267048, "share_pct": 4.59, "on_time_pct": 77.42, "cancelled_pct": 1.6, "avg_arr_delay_min": 6.68, "avg_delay_when_late_min": 61.01},
+   {"airline_code": "US", "airline_name": "US Airways Inc.", "flights": 198715, "share_pct": 3.41, "on_time_pct": 81.18, "cancelled_pct": 2.05, "avg_arr_delay_min": 3.71, "avg_delay_when_late_min": 50.29},
+   {"airline_code": "AS", "airline_name": "Alaska Airlines Inc.", "flights": 172521, "share_pct": 2.96, "on_time_pct": 86.96, "cancelled_pct": 0.39, "avg_arr_delay_min": -0.98, "avg_delay_when_late_min": 48.09},
+   {"airline_code": "NK", "airline_name": "Spirit Air Lines", "flights": 117379, "share_pct": 2.02, "on_time_pct": 70.29, "cancelled_pct": 1.71, "avg_arr_delay_min": 14.47, "avg_delay_when_late_min": 63.21},
+   {"airline_code": "F9", "airline_name": "Frontier Airlines Inc.", "flights": 90836, "share_pct": 1.56, "on_time_pct": 73.84, "cancelled_pct": 0.65, "avg_arr_delay_min": 12.5, "avg_delay_when_late_min": 67.2},
+   {"airline_code": "HA", "airline_name": "Hawaiian Airlines Inc.", "flights": 76272, "share_pct": 1.31, "on_time_pct": 88.67, "cancelled_pct": 0.22, "avg_arr_delay_min": 2.02, "avg_delay_when_late_min": 39.59},
+   {"airline_code": "VX", "airline_name": "Virgin America", "flights": 61903, "share_pct": 1.06, "on_time_pct": 80.77, "cancelled_pct": 0.86, "avg_arr_delay_min": 4.74, "avg_delay_when_late_min": 56.3}
+  ],
+  "delay_causes": [
+   {"cause": "Late-arriving aircraft", "minutes": 24961931, "share_pct": 39.84},
+   {"cause": "Airline / carrier", "minutes": 20172956, "share_pct": 32.2},
+   {"cause": "National Air System", "minutes": 14335762, "share_pct": 22.88},
+   {"cause": "Weather", "minutes": 3100233, "share_pct": 4.95},
+   {"cause": "Security", "minutes": 80985, "share_pct": 0.13}
+  ],
+  "cancellation_reasons": [
+   {"cancellation_reason": "Weather", "cancelled_flights": 48851, "share_pct": 54.35},
+   {"cancellation_reason": "Airline/Carrier", "cancelled_flights": 25262, "share_pct": 28.11},
+   {"cancellation_reason": "National Air System", "cancelled_flights": 15749, "share_pct": 17.52},
+   {"cancellation_reason": "Security", "cancelled_flights": 22, "share_pct": 0.02}
+  ],
+  "hourly": [
+   {"sched_dep_hour": 0, "flights": 14664, "avg_dep_delay_min": 7.16, "on_time_pct": 84.05},
+   {"sched_dep_hour": 1, "flights": 5159, "avg_dep_delay_min": 8.06, "on_time_pct": 81.22},
+   {"sched_dep_hour": 2, "flights": 1414, "avg_dep_delay_min": 7.27, "on_time_pct": 82.86},
+   {"sched_dep_hour": 3, "flights": 778, "avg_dep_delay_min": 8.92, "on_time_pct": 82.27},
+   {"sched_dep_hour": 4, "flights": 531, "avg_dep_delay_min": 10.34, "on_time_pct": 79.85},
+   {"sched_dep_hour": 5, "flights": 118051, "avg_dep_delay_min": 1.88, "on_time_pct": 92.73},
+   {"sched_dep_hour": 6, "flights": 406940, "avg_dep_delay_min": 2.09, "on_time_pct": 90.97},
+   {"sched_dep_hour": 7, "flights": 393947, "avg_dep_delay_min": 3.23, "on_time_pct": 88.79},
+   {"sched_dep_hour": 8, "flights": 381014, "avg_dep_delay_min": 4.67, "on_time_pct": 87.1},
+   {"sched_dep_hour": 9, "flights": 351403, "avg_dep_delay_min": 5.66, "on_time_pct": 85.82},
+   {"sched_dep_hour": 10, "flights": 371644, "avg_dep_delay_min": 6.87, "on_time_pct": 84.57},
+   {"sched_dep_hour": 11, "flights": 358084, "avg_dep_delay_min": 7.76, "on_time_pct": 83.59},
+   {"sched_dep_hour": 12, "flights": 355611, "avg_dep_delay_min": 8.92, "on_time_pct": 82.42},
+   {"sched_dep_hour": 13, "flights": 363509, "avg_dep_delay_min": 9.77, "on_time_pct": 80.96},
+   {"sched_dep_hour": 14, "flights": 329715, "avg_dep_delay_min": 11.14, "on_time_pct": 79.14},
+   {"sched_dep_hour": 15, "flights": 367760, "avg_dep_delay_min": 11.91, "on_time_pct": 78.51},
+   {"sched_dep_hour": 16, "flights": 334153, "avg_dep_delay_min": 12.89, "on_time_pct": 76.91},
+   {"sched_dep_hour": 17, "flights": 390362, "avg_dep_delay_min": 13.79, "on_time_pct": 75.53},
+   {"sched_dep_hour": 18, "flights": 334380, "avg_dep_delay_min": 14.95, "on_time_pct": 74.09},
+   {"sched_dep_hour": 19, "flights": 331338, "avg_dep_delay_min": 15.04, "on_time_pct": 73.75},
+   {"sched_dep_hour": 20, "flights": 259432, "avg_dep_delay_min": 15.25, "on_time_pct": 73.68},
+   {"sched_dep_hour": 21, "flights": 187467, "avg_dep_delay_min": 13.68, "on_time_pct": 75.67},
+   {"sched_dep_hour": 22, "flights": 117551, "avg_dep_delay_min": 11.75, "on_time_pct": 77.08},
+   {"sched_dep_hour": 23, "flights": 44172, "avg_dep_delay_min": 9.48, "on_time_pct": 80.84}
+  ],
+  "day_of_week": [
+   {"day_of_week": 1, "day_name": "Mon", "flights": 865543, "days": 52, "avg_flights_per_day": 16645.0, "on_time_pct": 80.25},
+   {"day_of_week": 2, "day_name": "Tue", "flights": 844600, "days": 52, "avg_flights_per_day": 16242.0, "on_time_pct": 81.73},
+   {"day_of_week": 3, "day_name": "Wed", "flights": 855897, "days": 52, "avg_flights_per_day": 16460.0, "on_time_pct": 81.78},
+   {"day_of_week": 4, "day_name": "Thu", "flights": 872521, "days": 53, "avg_flights_per_day": 16463.0, "on_time_pct": 79.99},
+   {"day_of_week": 5, "day_name": "Fri", "flights": 862209, "days": 52, "avg_flights_per_day": 16581.0, "on_time_pct": 80.8},
+   {"day_of_week": 6, "day_name": "Sat", "flights": 700545, "days": 52, "avg_flights_per_day": 13472.0, "on_time_pct": 84.01},
+   {"day_of_week": 7, "day_name": "Sun", "flights": 817764, "days": 52, "avg_flights_per_day": 15726.0, "on_time_pct": 81.69}
+  ],
+  "distance_bands": [
+   {"distance_band": "1 <500 mi", "flights": 2120155, "on_time_pct": 81.79, "cancelled_pct": 2.01, "avg_arr_delay_min": 5.16, "avg_time_made_up_min": 2.9},
+   {"distance_band": "2 500-999 mi", "flights": 2052297, "on_time_pct": 81.35, "cancelled_pct": 1.48, "avg_arr_delay_min": 4.64, "avg_time_made_up_min": 4.89},
+   {"distance_band": "3 1000-1499 mi", "flights": 858724, "on_time_pct": 80.28, "cancelled_pct": 1.25, "avg_arr_delay_min": 4.49, "avg_time_made_up_min": 6.4},
+   {"distance_band": "4 1500-2499 mi", "flights": 666936, "on_time_pct": 81.68, "cancelled_pct": 0.78, "avg_arr_delay_min": 1.72, "avg_time_made_up_min": 8.6},
+   {"distance_band": "5 2500+ mi", "flights": 120967, "on_time_pct": 81.28, "cancelled_pct": 0.84, "avg_arr_delay_min": 1.67, "avg_time_made_up_min": 8.3}
+  ],
+  "top15_origin_airports": [
+   {"origin_code": "ATL", "airport_name": "Hartsfield-Jackson Atlanta International Airport", "city": "Atlanta", "state": "GA", "departures": 346836, "on_time_pct": 83.56, "avg_dep_delay_min": 9.33, "cancelled_pct": 0.74, "avg_taxi_out_min": 17.41},
+   {"origin_code": "ORD", "airport_name": "Chicago O'Hare International Airport", "city": "Chicago", "state": "IL", "departures": 285884, "on_time_pct": 75.9, "avg_dep_delay_min": 14.07, "cancelled_pct": 2.99, "avg_taxi_out_min": 19.55},
+   {"origin_code": "DFW", "airport_name": "Dallas/Fort Worth International Airport", "city": "Dallas-Fort Worth", "state": "TX", "departures": 239551, "on_time_pct": 78.3, "avg_dep_delay_min": 11.44, "cancelled_pct": 2.61, "avg_taxi_out_min": 17.24},
+   {"origin_code": "DEN", "airport_name": "Denver International Airport", "city": "Denver", "state": "CO", "departures": 196055, "on_time_pct": 77.6, "avg_dep_delay_min": 11.81, "cancelled_pct": 1.08, "avg_taxi_out_min": 15.97},
+   {"origin_code": "LAX", "airport_name": "Los Angeles International Airport", "city": "Los Angeles", "state": "CA", "departures": 194673, "on_time_pct": 79.02, "avg_dep_delay_min": 10.65, "cancelled_pct": 1.11, "avg_taxi_out_min": 16.95},
+   {"origin_code": "SFO", "airport_name": "San Francisco International Airport", "city": "San Francisco", "state": "CA", "departures": 148008, "on_time_pct": 79.7, "avg_dep_delay_min": 11.17, "cancelled_pct": 1.45, "avg_taxi_out_min": 17.76},
+   {"origin_code": "PHX", "airport_name": "Phoenix Sky Harbor International Airport", "city": "Phoenix", "state": "AZ", "departures": 146815, "on_time_pct": 81.16, "avg_dep_delay_min": 8.65, "cancelled_pct": 0.61, "avg_taxi_out_min": 15.3},
+   {"origin_code": "IAH", "airport_name": "George Bush Intercontinental Airport", "city": "Houston", "state": "TX", "departures": 146622, "on_time_pct": 78.69, "avg_dep_delay_min": 11.52, "cancelled_pct": 1.45, "avg_taxi_out_min": 17.81},
+   {"origin_code": "LAS", "airport_name": "McCarran International Airport", "city": "Las Vegas", "state": "NV", "departures": 133181, "on_time_pct": 79.37, "avg_dep_delay_min": 10.94, "cancelled_pct": 0.7, "avg_taxi_out_min": 14.71},
+   {"origin_code": "MSP", "airport_name": "Minneapolis-Saint Paul International Airport", "city": "Minneapolis", "state": "MN", "departures": 112117, "on_time_pct": 83.64, "avg_dep_delay_min": 7.24, "cancelled_pct": 0.72, "avg_taxi_out_min": 17.48},
+   {"origin_code": "MCO", "airport_name": "Orlando International Airport", "city": "Orlando", "state": "FL", "departures": 110982, "on_time_pct": 79.6, "avg_dep_delay_min": 12.03, "cancelled_pct": 1.01, "avg_taxi_out_min": 14.6},
+   {"origin_code": "SEA", "airport_name": "Seattle-Tacoma International Airport", "city": "Seattle", "state": "WA", "departures": 110899, "on_time_pct": 83.16, "avg_dep_delay_min": 6.79, "cancelled_pct": 0.41, "avg_taxi_out_min": 16.76},
+   {"origin_code": "DTW", "airport_name": "Detroit Metropolitan Airport", "city": "Detroit", "state": "MI", "departures": 108500, "on_time_pct": 82.28, "avg_dep_delay_min": 9.13, "cancelled_pct": 1.17, "avg_taxi_out_min": 18.2},
+   {"origin_code": "BOS", "airport_name": "Gen. Edward Lawrence Logan International Airport", "city": "Boston", "state": "MA", "departures": 107847, "on_time_pct": 79.62, "avg_dep_delay_min": 9.57, "cancelled_pct": 2.46, "avg_taxi_out_min": 20.02},
+   {"origin_code": "EWR", "airport_name": "Newark Liberty International Airport", "city": "Newark", "state": "NJ", "departures": 101772, "on_time_pct": 78.48, "avg_dep_delay_min": 13.58, "cancelled_pct": 3.06, "avg_taxi_out_min": 20.19}
+  ],
+  "top10_routes": [
+   {"route": "SFO-LAX", "flights": 13744, "distance_mi": 337.0, "on_time_pct": 72.87},
+   {"route": "LAX-SFO", "flights": 13457, "distance_mi": 337.0, "on_time_pct": 73.89},
+   {"route": "JFK-LAX", "flights": 12016, "distance_mi": 2475.0, "on_time_pct": 81.68},
+   {"route": "LAX-JFK", "flights": 12015, "distance_mi": 2475.0, "on_time_pct": 81.96},
+   {"route": "LAS-LAX", "flights": 9715, "distance_mi": 236.0, "on_time_pct": 71.96},
+   {"route": "LGA-ORD", "flights": 9639, "distance_mi": 733.0, "on_time_pct": 78.73},
+   {"route": "LAX-LAS", "flights": 9594, "distance_mi": 236.0, "on_time_pct": 77.45},
+   {"route": "ORD-LGA", "flights": 9575, "distance_mi": 733.0, "on_time_pct": 74.15},
+   {"route": "SFO-JFK", "flights": 8440, "distance_mi": 2586.0, "on_time_pct": 82.19},
+   {"route": "JFK-SFO", "flights": 8437, "distance_mi": 2586.0, "on_time_pct": 80.05}
+  ],
+  "worst_cancellation_days": [
+   {"flight_date": "2015-01-27", "day_name": "Tue", "flights": 15155, "cancelled": 2884, "cancelled_pct": 19.03, "on_time_pct": 92.87},
+   {"flight_date": "2015-02-02", "day_name": "Mon", "flights": 15975, "cancelled": 2799, "cancelled_pct": 17.52, "on_time_pct": 71.12},
+   {"flight_date": "2015-03-05", "day_name": "Thu", "flights": 16622, "cancelled": 2858, "cancelled_pct": 17.19, "on_time_pct": 68.79},
+   {"flight_date": "2015-02-01", "day_name": "Sun", "flights": 13406, "cancelled": 1979, "cancelled_pct": 14.76, "on_time_pct": 78.17},
+   {"flight_date": "2015-12-28", "day_name": "Mon", "flights": 16312, "cancelled": 2177, "cancelled_pct": 13.35, "on_time_pct": 63.62}
+  ]
+ },
+ "engine": {"duckdb": "1.5.6", "python": "3.13.5"},
+ "sql_timings_s": {"00_duckdb_compat.sql": 0.0, "01_staging.sql": 0.75, "02_cleaning.sql": 2.63, "03_model.sql": 0.76, "04_analysis.sql": 0.61, "05_quality_checks.sql": 0.54}
+}

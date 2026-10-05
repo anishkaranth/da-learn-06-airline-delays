@@ -1,0 +1,2 @@
+flights,completed_flights,avg_flights_per_day,on_time_pct,cancelled_pct,diverted_pct,avg_arr_delay_min,avg_dep_delay_min,avg_delay_when_late_min,total_late_arrival_min,airlines,origin_airports,avg_taxi_out_min
+5819079,5714008,15943.0,81.39,1.54,0.26,4.41,9.34,58.91,62651867,14,322,16.07
